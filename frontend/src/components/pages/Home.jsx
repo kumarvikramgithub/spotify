@@ -1,8 +1,7 @@
 import React from 'react'
 import { Icon } from "@iconify/react";
+import Navbar from '../Shared/Navbar.js'
 import IconText from '../Shared/IconText.js'
-import TextWithLink from "../Shared/TextWithLink.js";
-import LinkButton from "../Shared/LinkButton.js";
 import PlaylistContainer from "../Shared/PlaylistContainer.js";
 const Home = () => {
   const playListPreviewData = [
@@ -107,23 +106,8 @@ const Home = () => {
         </div>
       </div>
       <div className="rightSideContentContainer w-4/5 bg-slate-800 bg-opacity-90 text-white rounded-xl m-2 ml-0 overflow-auto">
-        <div className="navbar bg-slate-950 rounded-t-xl h-1/12 flex items-center sticky">
-          <div className="controls flex items-center ">
-            <div className="control mx-1 ml-5 bg-slate-900 rounded-full p-1 flex items-center justify-center">
-              <Icon icon="ic:baseline-less-than" width="30" />
-            </div>
-            <div className="control mx-1 bg-slate-900 rounded-full p-1 flex items-center justify-center">
-              <Icon icon="ic:baseline-greater-than" width="30" />
-            </div>
-          </div>
-          <div className="navLinks w-full flex justify-end items-center">
-            <div className="mx-4">
-              <TextWithLink title="Sign up" route="/signup" />
-            </div>
-            <div className="mx-4">
-              <LinkButton title="Log In" bgcolor="bg-white" />
-            </div>
-          </div>
+        <div className="navba h-1/12">
+          <Navbar />
         </div>
         <div className="content flex flex-wrap m-4">
           {  playListPreviewData.map((item, index)=>{
