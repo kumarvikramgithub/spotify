@@ -1,6 +1,6 @@
 import React from 'react'
 import { Icon } from "@iconify/react";
-import Navbar from '../Shared/Navbar.js'
+import Navbar from '../Shared/Navbar.jsx'
 import IconText from '../Shared/IconText.js'
 import PlaylistContainer from "../Shared/PlaylistContainer.js";
 const Home = () => {
@@ -111,7 +111,7 @@ const Home = () => {
         </div>
         <div className="content flex flex-wrap m-4">
           {  playListPreviewData.map((item, index)=>{
-            return <div className="PlayListView w-full my-5">
+            return <div className="PlayListView w-full my-5" key={index}>
                 <PlaylistContainer
                   {...item}
                 />

@@ -10,13 +10,24 @@ router.post("/register", async (req, res) => {
 
   // req.body will be of the format {email, password, firstName, lastName, username }
   const { email, password, firstName, lastName, username } = req.body;
+  if(!email || !password || !firstName || !lastName || !username){
+    return res
+      .status(400)
+      .json({ error: "One or More fields are empty." });
+  }
 
   // Check Given emial is exist in our Database or not.
-  const user = await userModel.findOne({ email: email });
+  const user = await userModel.findOne({$or: [{email: email}, {username: username}] });
   if (user) {
-    return res
-      .status(403)
-      .json({ error: "A user with this email already exists." });
+    if(user.email===email){
+      return res
+        .status(401)
+        .json({ error: "A user with this email already exists." });
+    }else{
+      return res
+        .status(401)
+        .json({ error: "A user with this Username already exists." });
+    }
   }
 
   // create a new user in the DB
@@ -48,22 +59,25 @@ router.post("/login", async (req, res) => {
 
   // req.body will be of the format {email, password }
   const { email, password } = req.body;
-
+  if (!email || !password) {
+    return res.status(400).json({ error: "One or More fields are empty." });
+  }
   // Check Given user is exist in our Database or not.
   const user = await userModel.findOne({ email: email });
   if (!user) {
-    return res.status(403).json({ error: "User does not exist" });
+    return res.status(403).json({ error: "Please enter a valid email address." });
   }
-  console.log("password: ", password, user);
+
+  // check password is correct or not.
   const isPasswordMatched = await bcrypt.compare(password, user.password);
   if (!isPasswordMatched) {
-    return res.status(403).json({ error: "Invalid Credentials!" });
+    return res.status(403).json({ error: "Wrong Password." });
   }
   // we want to create the token to return to the user
   const token = await getToken(user);
 
   //return the result to the user
-  const userToken = { ...newUser.toJSON(), token };
+  const userToken = { ...user.toJSON(), token };
   delete userToken.password;
 
   return res
